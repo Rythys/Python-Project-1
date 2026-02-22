@@ -1,33 +1,20 @@
 from pathlib import Path
-from typing import Generator, Dict, Any
+from filters import is_filtered_by_extension, is_filtered_by_min_size, is_filtered_by_max_size, is_filtered_by_name
+from typing import Generator, Any
 
-
-def scanner(PATH: str) -> Generator[Dict[str, Any], None, None]:
-
-    """
-    Рекурсивно сканирует директорию и возвращает информацию о файлах.
-
-    Аргументы:
-        directory_path (str): Путь к директории для сканирования.
-
-    Возвращает:
-        Generator: Генерирует словари с данными о файлах:
-            - path (str): Абсолютный путь к файлу.
-            - size (int): Размер файла в байтах.
-            - extension (str): Расширение файла (например, '.py').
-
-    Исключения:
-        FileNotFoundError: Если указанный путь не существует.
+def scanner(args) -> Generator[dict[str, Any], None, None]:
     """
 
-    # Создание типа Path для текущей директории
-    current_dir_path = Path(PATH)
+    Recursively scans the directory and returns information about the files.
 
-    # Проверка существования полученного пути
+    """
+
+    current_dir_path = Path(args.path)
+
     if not current_dir_path.exists():
+        print(current_dir_path)
         raise FileNotFoundError(f"{current_dir_path} does not exist")
 
-    # Проверка является ли полученный путь файлом
     if not current_dir_path.is_dir():
         yield {
                 "path": str(current_dir_path.absolute()),
@@ -36,14 +23,19 @@ def scanner(PATH: str) -> Generator[Dict[str, Any], None, None]:
             }
         return
 
-    # Рекурсивный обход полученного пути
+    # Recursive walk along path
     for inner_file in current_dir_path.rglob('*'):
         if inner_file.is_file():
-            yield {
-                "path": str(inner_file.absolute()),
-                "size": inner_file.stat().st_size,
-                "extension": inner_file.suffix
-            }
+            # Filter file by arguments
+            if is_filtered_by_extension(inner_file, args.ext) and \
+               is_filtered_by_min_size(inner_file, args.min_size) and \
+               is_filtered_by_max_size(inner_file, args.max_size) and \
+               is_filtered_by_name(inner_file, args.name):
+                yield {
+                    "path": str(inner_file.absolute()),
+                    "size": inner_file.stat().st_size,
+                    "extension": inner_file.suffix
+                }
     
 
 
