@@ -1,9 +1,15 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 5603267e65736c5c6b51f094cb8ca4eed4b6f877
 from pathlib import Path
 from filters import is_filtered_by_extension, is_filtered_by_min_size, is_filtered_by_max_size, is_filtered_by_name
 from typing import Generator, Any
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5603267e65736c5c6b51f094cb8ca4eed4b6f877
 def scanner(args) -> Generator[dict[str, Any], None, None]:
     """
 
@@ -36,10 +42,17 @@ def scanner(args) -> Generator[dict[str, Any], None, None]:
                 yield {
                     "path": str(inner_file.absolute()),
                     "size": inner_file.stat().st_size,
+<<<<<<< HEAD
                     "extension": str(inner_file.suffix)
+=======
+                    "extension": inner_file.suffix
+>>>>>>> 5603267e65736c5c6b51f094cb8ca4eed4b6f877
                 }
     
 
 
+<<<<<<< HEAD
 =======
 >>>>>>> main
+=======
+>>>>>>> 5603267e65736c5c6b51f094cb8ca4eed4b6f877
