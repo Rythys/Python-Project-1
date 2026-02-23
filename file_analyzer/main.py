@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import argparse
 from report import report
 
@@ -20,3 +21,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+=======
+>>>>>>> main

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from pathlib import Path
 from filters import is_filtered_by_extension, is_filtered_by_min_size, is_filtered_by_max_size, is_filtered_by_name
 from typing import Generator, Any
@@ -40,3 +41,5 @@ def scanner(args) -> Generator[dict[str, Any], None, None]:
     
 
 
+=======
+>>>>>>> main

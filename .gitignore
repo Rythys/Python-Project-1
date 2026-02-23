@@ -1,13 +1,26 @@
 __pycache__/
 *.py[cod]
 *$py.class
-.venv/
+
+.DS_Store
+Thumbs.db
+
+# Environments
+.env
+.env.*
+venv/
 env/
+.venv/
 build/
 dist/
 
 .vscode/
 .idea/
+*.swp
+
+.ruff_cache/
+.pytest_cache/
+.mypy_cache/
 
 *.json
 *.txt
