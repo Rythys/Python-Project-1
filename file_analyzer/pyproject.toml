@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "file-analyzer"
+version = "0.1.0"
+description = "Console utility for file analysis"
+authors = ["Bob <r_yu_00@bk.ru>"]
+packages = [{include = "file_analyzer"}]
+
+[tool.poetry.dependencies]
+python = ">=3.12"
+
+[tool.poetry.group.dev.dependencies]
+ruff = ">=0.15.2,<0.16.0"
+
+[tool.poetry.scripts]
+# Это создаст команду для запуска в терминале
+file-analyzer = "file_analyzer.main:main"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
