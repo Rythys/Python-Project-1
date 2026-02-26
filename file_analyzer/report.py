@@ -1,34 +1,47 @@
 import json
+from decorators import log_calls, measure_time
 from scanner import scanner
 from utils import statistic_by_extensions
 
 
-def default_output(file, extensions_stats_dict, top_files, top_count, path):
-        stat_text = (
-            f"Analysis path: {path}\n"
-            f"Total files: {sum([x['count'] for x in extensions_stats_dict.values()])}\n"
-            f"Total size: {sum([x['size'] for x in extensions_stats_dict.values()])} bytes\n\n\n"
-            f"Execution info:\n"
-            f"scan time: <SCAN TIME> ms\n"
-            f"Report generation time: <REPORT TIME> ms\n\n\n"
-            f"By extension:\n"
-        )
+def default_output(is_file: bool, extensions_stats_dict: dict, top_files: dict, top_count: int, path: str):
+    '''
+    Write statistics in file or console
 
-        for key, value in extensions_stats_dict.items():
-            stat_text += (f"{repr(key)} - {value["count"]} files, {value["size"]} bytes\n")
+    '''
+    stat_text = (
+        f"Analysis path: {path}\n"
+        f"Total files: {sum([x['count'] for x in extensions_stats_dict.values()])}\n"
+        f"Total size: {sum([x['size'] for x in extensions_stats_dict.values()])} bytes\n\n\n"
+        f"Execution info:\n"
+        f"scan time: <SCAN TIME> ms\n"
+        f"Report generation time: <REPORT TIME> ms\n\n\n"
+        f"By extension:\n"
+    )
 
-        stat_text += f"\n\nTop {top_count} largest files:\n"
-        for idx, top_file in enumerate(top_files):
-            stat_text += (f"{idx}. {repr(top_file["path"])} - {top_file["size"]} bytes\n")
+    extensions_stats_list = []
+    for key, value in extensions_stats_dict.items():
+        extensions_stats_list.append((f"{repr(key)} - {value["count"]} files, {value["size"]} bytes\n"))
+    stat_text += "".join(extensions_stats_list)
 
-        if file:
-            with open(file, "w") as f:
-                f.write(stat_text)
-        else:
-            print(stat_text)
+    stat_text += f"\n\nTop {top_count} largest files:\n"
+    top_files_stat_list = []
+    for idx, top_file in enumerate(top_files):
+        top_files_stat_list.append((f"{idx}. {repr(top_file["path"])} - {top_file["size"]} bytes\n"))
+    stat_text += "".join(top_files_stat_list)
+
+    if is_file:
+        with open(is_file, "w") as f:
+            f.write(stat_text)
+    else:
+        print(stat_text)
 
 
-def json_output(extensions_stats_dict, top_files, top_count, path):
+def json_output(extensions_stats_dict: dict, top_files: dict, top_count: int, path: str):
+    '''
+    Write statistics in "report.json" file
+
+    '''
     json_output_data = {
         "analysis_path": repr(path),
         "total_files": sum([x['count'] for x in extensions_stats_dict.values()]),
@@ -44,6 +57,8 @@ def json_output(extensions_stats_dict, top_files, top_count, path):
         json.dump(json_output_data, f, indent=2)
 
 
+@measure_time
+@log_calls
 def report(args):
     all_filtered_paths_list = list(scanner(args))
 
