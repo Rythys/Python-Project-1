@@ -1,5 +1,6 @@
 import logging
 import time
+from collections.abc import Generator
 from functools import wraps
 
 
@@ -21,7 +22,9 @@ def measure_time(func):
     def wrapper(*args, **kwargs):
         start = time.perf_counter()
         result = func(*args, **kwargs)
+        if isinstance(result, Generator):
+            result = list(result)
         end = time.perf_counter()
-        print(f"{func.__name__}() took {end - start:.4f} seconds")
-        return result
+        elapsed = end - start
+        return result, elapsed
     return wrapper
