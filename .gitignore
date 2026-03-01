@@ -24,4 +24,5 @@ dist/
 
 *.json
 *.txt
+NOTEXSISTEDPATH
 !README.md

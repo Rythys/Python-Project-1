@@ -1,5 +1,5 @@
 import json
-from decorators import *
+from decorators import execution_stats, log_buffer, log_calls, measure_time 
 from scanner import scanner
 from utils import statistic_by_extensions
 
@@ -18,7 +18,7 @@ def default_output(extensions_stats_dict: dict, top_files: dict, top_count: int,
         f"Total size: {sum([x['size'] for x in extensions_stats_dict.values()])} bytes\n\n\n"
     )
     
-    extensions_stat_text = f"By extension:\n"
+    extensions_stat_text = "By extension:\n"
     extensions_stats_list = []
     for key, value in extensions_stats_dict.items():
         extensions_stats_list.append((f"{repr(key)} - {value["count"]} files, {value["size"]} bytes\n"))

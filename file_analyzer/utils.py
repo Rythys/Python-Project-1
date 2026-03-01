@@ -1,4 +1,4 @@
-from decorators import *
+from decorators import log_calls, measure_time
 
 @measure_time("<REPORT_TIME>")
 @log_calls

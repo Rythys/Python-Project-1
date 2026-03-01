@@ -23,9 +23,11 @@ def main():
     if args.top <= 0:
         parser.error(f"Minimum top files cannot be positive (got: {args.top})")
 
+    # Report Generator
     report_output(args)
 
-    output_logs()
+    # If needed output logs in file
+    output_logs(is_file_output=True, output_file="log.txt")
 
 if __name__ == "__main__":
     main()
