@@ -4,11 +4,10 @@ from pathlib import Path
 from typing import Generator, Any
 
 
-@measure_time
+@measure_time("<SCAN_TIME>")
 @log_calls
 def scanner(args) -> Generator[dict[str, Any], None, None]:
     """
-
     Recursively scans the directory and returns information about the files.
 
     """
@@ -20,26 +19,41 @@ def scanner(args) -> Generator[dict[str, Any], None, None]:
         raise FileNotFoundError(f"{current_dir_path} does not exist")
 
     if not current_dir_path.is_dir():
-        yield {
+        try:
+            yield {
                 "path": str(current_dir_path.absolute()),
                 "size": current_dir_path.stat().st_size,
                 "extension": current_dir_path.suffix
             }
+        except PermissionError as e:
+            raise e(f"Critical directory access error {current_dir_path}")
+        except OSError as e:
+            raise e(f"Failed to read to {current_dir_path}")
+
         return
 
-    # Recursive walk along path
-    for inner_file in current_dir_path.rglob('*'):
-        if inner_file.is_file():
-            # Filter file by arguments
-            if is_filtered_by_extension(inner_file, args.ext) and \
-               is_filtered_by_min_size(inner_file, args.min_size) and \
-               is_filtered_by_max_size(inner_file, args.max_size) and \
-               is_filtered_by_name(inner_file, args.name):
-                yield {
-                    "path": str(inner_file.absolute()),
-                    "size": inner_file.stat().st_size,
-                    "extension": str(inner_file.suffix)
-                }
+    try:
+        # Recursive walk along path     
+        for inner_file in current_dir_path.rglob('*'):
+            if inner_file.is_file():
+                try:
+                    # Filter file by arguments
+                    if is_filtered_by_extension(inner_file, args.ext) and \
+                    is_filtered_by_min_size(inner_file, args.min_size) and \
+                    is_filtered_by_max_size(inner_file, args.max_size) and \
+                    is_filtered_by_name(inner_file, args.name):
+                        yield {
+                            "path": str(inner_file.absolute()),
+                            "size": inner_file.stat().st_size,
+                            "extension": str(inner_file.suffix)
+                        }
+                except PermissionError:
+                    continue
+    except PermissionError as e:
+        print(f"Critical directory access error {current_dir_path}: {e}")
+    except OSError as e:
+        print(f"Failed to read {current_dir_path}: {e}")
+
     
 
 

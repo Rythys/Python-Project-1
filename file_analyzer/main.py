@@ -1,5 +1,5 @@
 import argparse
-from report import report
+from report import report_output, output_logs
 
 def main():
 
@@ -23,7 +23,9 @@ def main():
     if args.top <= 0:
         parser.error(f"Minimum top files cannot be positive (got: {args.top})")
 
-    report(args)
+    report_output(args)
+
+    output_logs()
 
 if __name__ == "__main__":
     main()

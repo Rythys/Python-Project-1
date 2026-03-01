@@ -1,22 +1,24 @@
 Analysis path: .
-Total files: 15
-Total size: 18304 bytes
+Total files: 17
+Total size: 41367 bytes
 
 
 Execution info:
-scan time: <SCAN TIME> ms
-Report generation time: <REPORT TIME> ms
+scan time: 1.65 ms
+Report generation time: 1.6 ms
 
 
 By extension:
-'.py' - 7 files, 6335 bytes
-'.json' - 1 files, 1147 bytes
-'.pyc' - 7 files, 10822 bytes
+'.py' - 7 files, 9965 bytes
+'' - 1 files, 755 bytes
+'.txt' - 1 files, 14437 bytes
+'.json' - 1 files, 1239 bytes
+'.pyc' - 7 files, 14971 bytes
 
 
 Top 5 largest files:
-0. '/home/rythys/projects/Python-Project-1/file_analyzer/__pycache__/report.cpython-312.pyc' - 4011 bytes
-1. '/home/rythys/projects/Python-Project-1/file_analyzer/report.py' - 2542 bytes
-2. '/home/rythys/projects/Python-Project-1/file_analyzer/__pycache__/scanner.cpython-312.pyc' - 2046 bytes
-3. '/home/rythys/projects/Python-Project-1/file_analyzer/__pycache__/decorators.cpython-312.pyc' - 1604 bytes
-4. '/home/rythys/projects/Python-Project-1/file_analyzer/scanner.py' - 1525 bytes
+1. '/home/rythys/projects/Python-Project-1/file_analyzer/log.txt' - 14437 bytes
+2. '/home/rythys/projects/Python-Project-1/file_analyzer/__pycache__/report.cpython-312.pyc' - 6617 bytes
+3. '/home/rythys/projects/Python-Project-1/file_analyzer/report.py' - 4486 bytes
+4. '/home/rythys/projects/Python-Project-1/file_analyzer/__pycache__/scanner.cpython-312.pyc' - 2751 bytes
+5. '/home/rythys/projects/Python-Project-1/file_analyzer/scanner.py' - 2150 bytes
