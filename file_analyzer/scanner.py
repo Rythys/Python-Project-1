@@ -1,7 +1,8 @@
-from decorators import log_calls, measure_time
-from filters import is_filtered_by_extension, is_filtered_by_min_size, is_filtered_by_max_size, is_filtered_by_name
 from pathlib import Path
 from typing import Generator, Any
+
+from .decorators import log_calls, measure_time
+from .filters import is_file_filtered_by_args
 
 
 @measure_time("<SCAN_TIME>")
@@ -37,11 +38,7 @@ def scanner(args) -> Generator[dict[str, Any], None, None]:
         for inner_file in current_dir_path.rglob('*'):
             if inner_file.is_file():
                 try:
-                    # Filter file by arguments
-                    if is_filtered_by_extension(inner_file, args.ext) and \
-                    is_filtered_by_min_size(inner_file, args.min_size) and \
-                    is_filtered_by_max_size(inner_file, args.max_size) and \
-                    is_filtered_by_name(inner_file, args.name):
+                    if is_file_filtered_by_args(inner_file, args):
                         yield {
                             "path": str(inner_file.absolute()),
                             "size": inner_file.stat().st_size,
@@ -53,7 +50,3 @@ def scanner(args) -> Generator[dict[str, Any], None, None]:
         print(f"Critical directory access error {current_dir_path}: {e}")
     except OSError as e:
         print(f"Failed to read {current_dir_path}: {e}")
-
-    
-
-

@@ -1,12 +1,14 @@
 import json
-from decorators import execution_stats, log_buffer, log_calls, measure_time 
-from scanner import scanner
-from utils import statistic_by_extensions
+from typing import Any
+
+from .decorators import execution_stats, log_buffer, log_calls, measure_time 
+from .scanner import scanner
+from .utils import statistic_by_extensions
 
 
 @measure_time("<REPORT_TIME>")
 @log_calls
-def default_output(extensions_stats_dict: dict, top_files: dict, top_count: int, path: str):
+def default_output(extensions_stats_dict: dict, top_files: dict, top_count: int, path: str) -> tuple[str, str]:
     '''
     Write statistics in file or console
 
@@ -35,7 +37,7 @@ def default_output(extensions_stats_dict: dict, top_files: dict, top_count: int,
 
 @measure_time("<REPORT_TIME>")
 @log_calls
-def json_output(extensions_stats_dict: dict, top_files: dict, path: str):
+def json_output(extensions_stats_dict: dict, top_files: dict, path: str) -> dict[str, Any]:
     '''
     Write statistics in "report.json" file
 
@@ -58,7 +60,7 @@ def json_output(extensions_stats_dict: dict, top_files: dict, path: str):
 
 @measure_time("<REPORT_TIME>")
 @log_calls
-def report(args):
+def report(args) -> tuple[Any, str]:
     all_filtered_paths_list = scanner(args)
 
     top_filtered_paths_list = sorted(all_filtered_paths_list, key=lambda x: x["size"], reverse=True)[:args.top]
@@ -75,7 +77,7 @@ def report(args):
 
 
 @log_calls
-def report_output(args):
+def report_output(args) -> None:
     output_data, second_part_output = report(args)
 
     if args.json:

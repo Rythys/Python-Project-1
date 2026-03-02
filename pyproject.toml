@@ -1,21 +1,33 @@
 [project]
-name = "python-project-1"
+name = "file_analyzer"
 version = "0.1.0"
-description = ""
+description = "CLI tool for analyzing files"
 authors = [
-    {name = "Bob",email = "r_yu_00@bk.ru"}
+    {name = "Rythys", email = "r_yu_00@bk.ru"}
 ]
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = [
-]
+dependencies = []
 
+[project.scripts]
+file-analyzer = "file_analyzer.main:main"
+
+[tool.poetry]
+# Если папка file_analyzer лежит в корне, это можно даже удалить
+packages = [{ include = "file_analyzer" }]
+
+[tool.ruff]
+# Добавьте это, чтобы Ruff автоматически сортировал импорты по PEP 8
+lint.select = ["I", "E", "F"] 
+lint.fixable = ["I"]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.9.0"
+]
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
 
-[dependency-groups]
-dev = [
-    "ruff (>=0.15.2,<0.16.0)"
-]
+

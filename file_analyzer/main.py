@@ -1,5 +1,6 @@
 import argparse
-from report import report_output, output_logs
+
+from .report import report_output, output_logs
 
 def main():
 
