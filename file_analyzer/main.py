@@ -1,7 +1,6 @@
 import argparse
-from scanner import scanner
-from utils import statistic_by_extensions
 
+from .report import report_output, output_logs
 
 def main():
 
@@ -17,16 +16,19 @@ def main():
     parser.add_argument("--json", type=bool, default=False)
     
     args = parser.parse_args()
-    all_filtered_paths_list = list(scanner(args))
 
-    if args.top:
-        top_filtered_paths_list = sorted(all_filtered_paths_list, \
-                                         key=lambda x: x["size"], \
-                                         reverse=True)[:args.top]
-    # print(top_filtered_paths_list)
+    if args.min_size < 0:
+        parser.error(f"Minimum size cannot be negative (got: {args.min_size})")
+    if args.max_size and args.max_size < 0:
+        parser.error(f"Maximim size cannot be negative (got: {args.max_size})")
+    if args.top <= 0:
+        parser.error(f"Minimum top files cannot be positive (got: {args.top})")
 
-    extensions_stats_dict = statistic_by_extensions(all_filtered_paths_list)
-    # print(extensions_stats_dict)
-    
+    # Report Generator
+    report_output(args)
+
+    # If needed output logs in file
+    output_logs(is_file_output=True, output_file="log.txt")
+
 if __name__ == "__main__":
     main()

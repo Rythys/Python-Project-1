@@ -1,23 +1,17 @@
 
 
-def is_filtered_by_extension(file, ext):
-    if not ext:
-        return True
-    return file.suffix == ext
+def is_file_filtered_by_args(file, args):
+    if args.ext and file.suffix != args.ext:
+        return False
 
-def is_filtered_by_min_size(file, min_size):
-    if not min_size:
-        return True
-    return file.stat().st_size >= min_size
+    if args.min_size and file.stat().st_size < args.min_size:
+        return False
 
-def is_filtered_by_max_size(file, max_size):
-    if not max_size:
-        return True
-    return file.stat().st_size <= max_size
+    if args.max_size and file.stat().st_size > args.max_size:
+        return False
 
-def is_filtered_by_name(file, name):
-    if not name:
-        return True
-    return name in file
+    if args.name and args.name not in file:
+        return False
+    return True
 
 

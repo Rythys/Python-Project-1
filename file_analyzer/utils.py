@@ -1,7 +1,11 @@
+from .decorators import log_calls, measure_time
 
-
+@measure_time("<REPORT_TIME>")
+@log_calls
 def statistic_by_extensions(data) -> dict[str, dict[str, int]]:
     """
+    Group files by extensions
+    
     returns:
         {
             "extension": {"count": int, "size": int},
